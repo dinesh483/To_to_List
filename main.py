@@ -16,6 +16,21 @@ task_list=[
     tasks(task_id=5,task_name="going to gym",task_description="to maintain our body physique",is_completed=False,created_at="2026-09-22",priority="High",due_date="2026-08-22")
     
 ]
+def init_db():
+    db = SessionLocal()
+
+    existing_count = db.query(databasemodel.Todo).count()
+
+    if existing_count == 0:
+        for task in task_list:
+            db.add(databasemodel.task(**task.model_dump()))
+        db.commit()
+        print("Database initialized with sample products.")
+        
+    db.close()
+
+init_db()    
+
  #to get all products
 @app.get("/")
 def get_all():
