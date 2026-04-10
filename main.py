@@ -1,9 +1,12 @@
 from fastapi import FastAPI
 from models import tasks
+from sqlalchemy.orm import Session
 from datetime import date
+import databasemodel
+
+databasemodel.Base.metadata.create_all(bind=engine)
 
 app = FastAPI()
-
 task_list=[
     tasks(task_id=1,task_name="wakeup at 5am",task_description="to maintain morning routine",is_completed=True,created_at="2026-08-22",priority="High",due_date="2026-08-22"),
     tasks(task_id=2,task_name="drink 5 lit of water",task_description="to keeping us hydrate",is_completed=True,created_at="2026-08-22",priority="High",due_date="2026-08-22"),
