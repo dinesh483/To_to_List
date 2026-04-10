@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from models import tasks
-from sqlalchemy.orm import Session,engine
+from sqlalchemy.orm import Session
 from datetime import date
+from database import SessionLocal,engine
 import databasemodel
 
 databasemodel.Base.metadata.create_all(bind=engine)
