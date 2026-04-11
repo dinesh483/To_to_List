@@ -1,0 +1,23 @@
+body {
+  font-family: Arial;
+  text-align: center;
+  background: #f4f4f4;
+}
+
+input {
+  padding: 8px;
+  margin: 5px;
+}
+
+button {
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.task {
+  background: white;
+  margin: 10px auto;
+  padding: 10px;
+  width: 300px;
+  border-radius: 8px;
+}
