@@ -1,4 +1,5 @@
 from fastapi import FastAPI,Depends, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from models import tasks
 from sqlalchemy.orm import Session
 from datetime import date
@@ -7,7 +8,18 @@ import databasemodel
 
 databasemodel.Base.metadata.create_all(bind=engine)
 
+
 app = FastAPI()
+
+# CORS for frontend dev server
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 def get_db():
     db=SessionLocal()
     try:
@@ -80,7 +92,7 @@ def update_task(task_id: int, task: tasks, db: Session = Depends(get_db)):
         
 # to delete a task
 @app.delete("/task/{task_id}")
-def update_task(task_id: int, task: tasks, db: Session = Depends(get_db)):
+def delete_task(task_id: int, task: tasks, db: Session = Depends(get_db)):
     db_task = db.query(databasemodel.Todo).filter(databasemodel.Todo.task_id == task_id).first()
     if not db_task:
         raise HTTPException(status_code=404, detail="task not found")
