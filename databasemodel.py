@@ -6,7 +6,7 @@ Base = declarative_base()
 class Todo(Base):
     __tablename__ = "list"
 
-    task_id = Column(Integer, primary_key=True, index=True)
+    task_id = Column(Integer, primary_key=True, index=True,autoincrement=True)
     task_name = Column(String(50))
     task_description = Column(Text)
     is_completed = Column(Boolean)

@@ -1,4 +1,4 @@
-const API = "http://localhost:8000";
+const API = "http://127.0.0.1:8000";
 
 // ── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -12,7 +12,6 @@ function showStatus(msg, isError = false) {
 function getFormData() {
   const today = new Date().toISOString().split("T")[0];
   return {
-    task_id: parseInt(document.getElementById("edit-id").value) || Date.now(),
     task_name: document.getElementById("task-name").value.trim(),
     task_description: document.getElementById("task-desc").value.trim(),
     is_completed: document.getElementById("is-completed").checked,

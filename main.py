@@ -13,9 +13,9 @@ app = FastAPI()
 
 # CORS for frontend dev server
 app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
-    allow_credentials=True,
+     CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -67,12 +67,10 @@ def get_single_task(task_id:int,db:Session=Depends(get_db)):
 #to post a new task
 @app.post("/task")
 def create_task(task: tasks, db: Session = Depends(get_db)):
-    db.add(databasemodel.Todo(**task.model_dump()))
+    task_data = task.model_dump(exclude={"task_id"})
+    db.add(databasemodel.Todo(**task_data))
     db.commit()
-    return {
-        "message": "Product created successfully",
-        "task": task
-    }
+    return {"message": "Task created successfully"}
 
 #to uptade a task
 @app.put("/task/{task_id}")
@@ -92,7 +90,7 @@ def update_task(task_id: int, task: tasks, db: Session = Depends(get_db)):
         
 # to delete a task
 @app.delete("/task/{task_id}")
-def delete_task(task_id: int, task: tasks, db: Session = Depends(get_db)):
+def delete_task(task_id: int,db: Session = Depends(get_db)):
     db_task = db.query(databasemodel.Todo).filter(databasemodel.Todo.task_id == task_id).first()
     if not db_task:
         raise HTTPException(status_code=404, detail="task not found")
