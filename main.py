@@ -1,12 +1,18 @@
 from fastapi import FastAPI,Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import OAuth2PasswordBearer,OAuth2PasswordRequestForm
 from models import tasks
 from sqlalchemy.orm import Session
 from datetime import date
 from database import SessionLocal,engine
 import databasemodel
+from passlib.context import CryptContext
 
 databasemodel.Base.metadata.create_all(bind=engine)
+
+SECURITY_KEY = "TODOLIST"
+ALGORITHM = "HS256"
+TOKEN_EXPIRE = 30
 
 
 app = FastAPI()
